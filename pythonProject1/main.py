@@ -4,7 +4,7 @@ from array import *
 from telebot import *
 
 bot = telebot.TeleBot(config.TOKEN)
-array_of_jokes = ["Негр загарает", "Колобок повесился", "Буратино утанул"]
+array_of_jokes = ["Негр загорает", "Колобок повесился", "Буратино утонул"]
 
 
 # @bot.message_handler(content_types=["text"])
