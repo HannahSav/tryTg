@@ -1,21 +1,21 @@
 from random import randint
 import config
-from array import *
+from db import *
 from telebot import *
 
+#TODO:
+#add likes, dislikes, reit
+#add bd (read)
+#add command menu
+
 bot = telebot.TeleBot(config.TOKEN)
+connect()
 array_of_jokes = ["Негр загорает", "Колобок повесился", "Буратино утонул"]
 
 
-# @bot.message_handler(content_types=["text"])
-# def default_test(message):
-#    keyboard = types.InlineKeyboardMarkup()
-#    url_button = types.InlineKeyboardButton(text="Перейти на Яндекс", url="https://ya.ru")
-#    keyboard.add(url_button)
-#    bot.send_message(message.chat.id, "Привет! Нажми на кнопку и перейди в поисковик.", reply_markup=keyboard)
-
 @bot.message_handler(commands=["start", "help"])
 def start(message):
+    truncate()
     bot.send_message(message.chat.id, "Это бот с анекдотами.\n"
                                       "/add_joke - добавить новый анек \n"
                                       "/read_joke - прочитать анек")
@@ -28,6 +28,7 @@ def add_joke(message):
 
 
 def third(message):
+    insert(message)
     array_of_jokes.append(message.text)
     bot.send_message(message.chat.id, "Ваш анекдот успешно добавлен")
 
@@ -36,22 +37,8 @@ def third(message):
 def read_joke(message):
     num = randint(0, len(array_of_jokes) - 1)
     bot.send_message(message.chat.id, array_of_jokes[num])
+    print (message)
 
-
-@bot.message_handler(commands=["have_coffee"])
-def coffee(message):
-    keyboard = types.InlineKeyboardMarkup()
-    url_button = types.InlineKeyboardButton(text="caputino", url="https://ya.ru")
-    url_button1 = types.InlineKeyboardButton(text="latte", url="https://ya.ru")
-    keyboard.add(url_button)
-    keyboard.add(url_button1)
-    bot.send_message(message.chat.id, "choo", reply_markup=keyboard)
-
-
-@bot.message_handler(content_types=["text"])
-def repeat_all_messages(message):  # Название функции не играет никакой роли
-    print(message)
-    bot.send_message(message.chat.id, message.text)
 
 
 if __name__ == '__main__':
