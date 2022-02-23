@@ -1,10 +1,11 @@
 import psycopg2
+
 from config import *
 
 
 def truncate():
     connection = connect()
-    p_insert = '''TRUNCATE TABLE PERSON CASCADE;'''
+    p_insert = '''TRUNCATE TABLE PERSON CASCADE'''
     cursor = connection.cursor()
     cursor.execute(p_insert)
     connection.commit()
@@ -42,6 +43,7 @@ def insert_joke(message, connection):
 
 
 def insert(message):
+    print("Insert in DB")
     connection = connect()
     cursor = connection.cursor()
     p_ask = 'SELECT * FROM PERSON WHERE PERSON_ID=%s'
@@ -53,3 +55,13 @@ def insert(message):
         insert_person(message, connection)
     insert_joke(message, connection)
     disconnect(connection)
+
+
+def take_joke():
+    connection = connect()
+    cursor = connection.cursor()
+    p_ask = 'SELECT joke FROM JOKES'
+    cursor.execute(p_ask)
+    joke = cursor.fetchall()
+    disconnect(connection)
+    return joke
